@@ -7,14 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:ci": "npm run lint",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "test:component": "cypress run --component",
+    "test:ci": "npm run lint && npm run test:component"
   },
   "dependencies": {
     "leaflet": "^1.9.4",
     "next": "15.3.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-leaflet": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
