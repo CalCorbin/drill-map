@@ -1,10 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import SidePanel from '../SidePanel/SidePanel';
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -18,15 +19,54 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 export default function Map() {
   const [geoData, setGeoData] = useState(null);
+  const [originalGeoData, setOriginalGeoData] = useState(null);
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState('All');
+  const geoJsonLayerRef = useRef();
 
   useEffect(() => {
     fetch('/Faraday_CC_collars.geojson')
       .then((response) => response.json())
       .then((data) => {
+        setOriginalGeoData(data);
         setGeoData(data);
+
+        const uniqueCompanies = [
+          ...new Set(
+            data.features
+              .map((feature) => feature.properties.Company)
+              .filter((company) => company)
+          ),
+        ];
+        setCompanies(uniqueCompanies);
       })
       .catch((error) => console.error('Error loading GeoJSON data:', error));
   }, []);
+
+  useEffect(() => {
+    if (!originalGeoData) return;
+
+    let filteredData = originalGeoData;
+
+    if (selectedCompany === 'All') {
+      setGeoData(originalGeoData);
+    } else {
+      filteredData = {
+        ...filteredData,
+        features: originalGeoData.features.filter(
+          (feature) => feature.properties.Company === selectedCompany
+        ),
+      };
+      setGeoData(filteredData);
+    }
+
+    geoJsonLayerRef.current.clearLayers();
+    geoJsonLayerRef.current.addData(filteredData);
+  }, [selectedCompany, originalGeoData]);
+
+  const handleCompanyChange = (e) => {
+    setSelectedCompany(e.target.value);
+  };
 
   const renderFeatureProps = (feature, layer) => {
     if (feature.properties) {
@@ -65,24 +105,33 @@ export default function Map() {
   };
 
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      <MapContainer
-        center={[32.75, -110.47]}
-        zoom={13}
-        style={{ height: '100%', width: '100%' }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {geoData && (
-          <GeoJSON
-            data={geoData}
-            onEachFeature={renderFeatureProps}
-            pointToLayer={createBoreholeMarker}
+    <div style={{ display: 'flex', height: '100vh', width: '100%' }}>
+      <SidePanel
+        selectedCompany={selectedCompany}
+        handleCompanyChange={handleCompanyChange}
+        companies={companies}
+      />
+      <div style={{ flex: 1, height: '100%' }}>
+        <MapContainer
+          center={[32.75, -110.47]}
+          zoom={13}
+          style={{ height: '100%', width: '100%' }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-        )}
-      </MapContainer>
+          {geoData && (
+            <GeoJSON
+              ref={geoJsonLayerRef}
+              key={selectedCompany}
+              data={geoData}
+              onEachFeature={renderFeatureProps}
+              pointToLayer={createBoreholeMarker}
+            />
+          )}
+        </MapContainer>
+      </div>
     </div>
   );
 }
