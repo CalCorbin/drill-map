@@ -11,7 +11,7 @@ export default function BasemapSelector({ options, selected, onChange }) {
       <div
         className={styles.selector}
         onClick={() => setIsOpen(!isOpen)}
-        data-testid="basemap-dropdown"
+        data-cy="basemap-dropdown"
       >
         <span className={styles.label}>Basemap</span>
         <span className={styles.selected}>{selectedOption?.name}</span>
@@ -28,7 +28,7 @@ export default function BasemapSelector({ options, selected, onChange }) {
                 onChange(option.id);
                 setIsOpen(false);
               }}
-              data-testid={`basemap-option-${option.id}`}
+              data-cy={`basemap-option-${option.id}`}
             >
               {option.name}
             </div>

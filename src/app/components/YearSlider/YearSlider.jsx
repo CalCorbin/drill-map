@@ -40,6 +40,7 @@ export default function YearSlider({
           value={year || ''}
           onChange={handleSliderChange}
           className={styles.slider}
+          data-cy="year-slider"
         />
       </div>
     </div>
