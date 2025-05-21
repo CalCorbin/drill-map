@@ -6,8 +6,10 @@ import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import SidePanel from '../SidePanel/SidePanel';
+import BasemapSelector from '../BasemapSelector/BasemapSelector';
 import { createBoreholePopup } from '../BoreholePopup/BoreholePopup';
 import { getColorByDepth } from './functions/getColorByDepth';
+import { basemapOptions } from '../BasemapSelector/basemapOptions';
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -28,6 +30,7 @@ export default function Map() {
   const [selectedYear, setSelectedYear] = useState(null);
   const [minYear, setMinYear] = useState(null);
   const [maxYear, setMaxYear] = useState(null);
+  const [selectedBasemap, setSelectedBasemap] = useState(basemapOptions[0].id);
 
   const geoJsonLayerRef = useRef();
 
@@ -103,6 +106,14 @@ export default function Map() {
     setSelectedYear(year);
   };
 
+  const handleBasemapChange = (basemapId) => {
+    setSelectedBasemap(basemapId);
+  };
+
+  const currentBasemap = basemapOptions.find(
+    (basemap) => basemap.id === selectedBasemap
+  );
+
   const handleColorByDepthChange = (e) => {
     setColorByDepth(e.target.checked);
 
@@ -153,6 +164,8 @@ export default function Map() {
         handleYearChange={handleYearChange}
         minYear={minYear}
         maxYear={maxYear}
+        selectedBasemap={selectedBasemap}
+        handleBasemapChange={handleBasemapChange}
       />
       <div style={{ flex: 1, height: '100%' }}>
         <MapContainer
@@ -161,8 +174,9 @@ export default function Map() {
           style={{ height: '100%', width: '100%' }}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution={currentBasemap.attribution}
+            url={currentBasemap.url}
+            maxZoom={currentBasemap.maxZoom}
           />
           {geoData && (
             <GeoJSON
@@ -174,6 +188,11 @@ export default function Map() {
             />
           )}
         </MapContainer>
+        <BasemapSelector
+          options={basemapOptions}
+          selected={selectedBasemap}
+          onChange={handleBasemapChange}
+        />
       </div>
     </div>
   );

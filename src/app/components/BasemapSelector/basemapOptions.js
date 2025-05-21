@@ -1,4 +1,4 @@
-const basemapOptions = [
+export const basemapOptions = [
   {
     id: 'openstreetmap',
     name: 'OpenStreetMap',
