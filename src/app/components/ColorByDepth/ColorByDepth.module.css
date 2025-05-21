@@ -1,0 +1,35 @@
+.container {
+  margin-bottom: 20px;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.checkbox {
+  margin-right: 8px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.gradientContainer {
+  margin-top: 10px;
+}
+
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.gradientBar {
+  height: 20px;
+  width: 100%;
+  background: linear-gradient(to right, #2c7bb6, #abd9e9, #ffffbf, #fdae61, #d7191c);
+  border-radius: 4px;
+  margin-top: 4px;
+}

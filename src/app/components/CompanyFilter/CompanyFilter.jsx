@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './CompanyFilter.module.css';
 
 export default function CompanyFilter({
   selectedCompany,
@@ -6,27 +7,15 @@ export default function CompanyFilter({
   companies,
 }) {
   return (
-    <div style={{ marginBottom: '20px' }}>
-      <label
-        htmlFor="company-filter"
-        style={{
-          display: 'block',
-          marginBottom: '5px',
-          fontWeight: 'bold',
-        }}
-      >
+    <div className={styles.container}>
+      <label htmlFor="company-filter" className={styles.label}>
         Company
       </label>
       <select
         id="company-filter"
         value={selectedCompany}
         onChange={handleCompanyChange}
-        style={{
-          width: '100%',
-          padding: '8px',
-          borderRadius: '4px',
-          border: '1px solid #ddd',
-        }}
+        className={styles.select}
         data-cy="company-filter"
       >
         <option value="All">All Companies</option>

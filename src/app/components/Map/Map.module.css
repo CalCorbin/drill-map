@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    width: 100vw;
+    height: 100vh
+}
+
+.geoDataContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 125vh;
+}
+
+.mapContainer {
+    height: 100%;
+    width: 100%;
+}

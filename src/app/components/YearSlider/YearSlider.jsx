@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styles from './YearSlider.module.css';
 
 export default function YearSlider({
   minYear,
@@ -23,23 +24,12 @@ export default function YearSlider({
   };
 
   return (
-    <div
-      style={{
-        margin: '15px 0',
-        padding: '10px 0',
-      }}
-    >
-      <h3 style={{ marginBottom: '10px' }}>Year Drilled</h3>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: '5px',
-          }}
-        >
+    <div className={styles.sliderContainer}>
+      <h3 className={styles.title}>Year Drilled</h3>
+      <div className={styles.sliderWrapper}>
+        <div className={styles.yearLabels}>
           <span>{minYear}</span>
-          <span style={{ fontWeight: 'bold' }}>{year}</span>
+          <span className={styles.currentYear}>{year}</span>
           <span>{maxYear}</span>
         </div>
         <input
@@ -49,7 +39,7 @@ export default function YearSlider({
           step={1}
           value={year || ''}
           onChange={handleSliderChange}
-          style={{ width: '100%' }}
+          className={styles.slider}
         />
       </div>
     </div>

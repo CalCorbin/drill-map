@@ -16,14 +16,6 @@ export const basemapOptions = [
     maxZoom: 17,
   },
   {
-    id: 'stamen-terrain',
-    name: 'Stamen Terrain',
-    url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.png',
-    attribution:
-      'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 18,
-  },
-  {
     id: 'esri-worldimagery',
     name: 'ESRI World Imagery',
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',

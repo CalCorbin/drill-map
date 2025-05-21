@@ -1,0 +1,27 @@
+.sliderContainer {
+  margin: 15px 0;
+  padding: 10px 0;
+}
+
+.title {
+  margin-bottom: 10px;
+}
+
+.sliderWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.yearLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.currentYear {
+  font-weight: bold;
+}
+
+.slider {
+  width: 100%;
+}
