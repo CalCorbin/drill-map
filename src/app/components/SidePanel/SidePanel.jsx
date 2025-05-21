@@ -4,6 +4,8 @@ export default function SidePanel({
   selectedCompany,
   handleCompanyChange,
   companies,
+  colorByDepth,
+  handleColorByDepthChange,
 }) {
   return (
     <div
@@ -20,7 +22,7 @@ export default function SidePanel({
       }}
     >
       <div style={{ padding: '15px', overflowY: 'auto' }}>
-        <h3 style={{ margin: '0 0 15px 0' }}>Filters</h3>
+        <h2 style={{ margin: '0 0 15px 0' }}>Filters</h2>
         <div style={{ marginBottom: '20px' }}>
           <label
             htmlFor="company-filter"
@@ -51,6 +53,51 @@ export default function SidePanel({
               </option>
             ))}
           </select>
+        </div>
+
+        {/* Add color by depth control */}
+        <div style={{ marginBottom: '20px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '8px',
+            }}
+          >
+            <input
+              type="checkbox"
+              id="color-by-depth"
+              checked={colorByDepth}
+              onChange={handleColorByDepthChange}
+              style={{ marginRight: '8px' }}
+              data-cy="color-by-depth-checkbox"
+            />
+            <label htmlFor="color-by-depth" style={{ fontWeight: 'bold' }}>
+              Color by Total Depth
+            </label>
+          </div>
+          <div style={{ marginTop: '10px' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                fontSize: '0.8rem',
+              }}
+            >
+              <span>Shallow</span>
+              <span>Deep</span>
+            </div>
+            <div
+              style={{
+                height: '20px',
+                width: '100%',
+                background:
+                  'linear-gradient(to right, #2c7bb6, #abd9e9, #ffffbf, #fdae61, #d7191c)',
+                borderRadius: '4px',
+                marginTop: '4px',
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

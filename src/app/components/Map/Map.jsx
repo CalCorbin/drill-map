@@ -22,6 +22,7 @@ export default function Map() {
   const [originalGeoData, setOriginalGeoData] = useState(null);
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState('All');
+  const [colorByDepth, setColorByDepth] = useState(false);
   const geoJsonLayerRef = useRef();
 
   useEffect(() => {
@@ -68,6 +69,25 @@ export default function Map() {
     setSelectedCompany(e.target.value);
   };
 
+  const getColorByDepth = (depth) => {
+    if (!depth) return '#3388ff';
+
+    if (depth < 200) return '#2c7bb6';
+    if (depth < 400) return '#abd9e9';
+    if (depth < 600) return '#ffffbf';
+    if (depth < 800) return '#fdae61';
+    return '#d7191c';
+  };
+
+  const handleColorByDepthChange = (e) => {
+    setColorByDepth(e.target.checked);
+
+    if (geoJsonLayerRef.current) {
+      geoJsonLayerRef.current.clearLayers();
+      geoJsonLayerRef.current.addData(geoData);
+    }
+  };
+
   const renderFeatureProps = (feature, layer) => {
     if (feature.properties) {
       const popupContent = `
@@ -82,11 +102,14 @@ export default function Map() {
     }
   };
 
-  const createBoreholeMarker = (feature, coords) => {
+  const createBoreholePoints = (feature, coords) => {
+    const depth = feature.properties['Total depth'];
+    const fillColor = colorByDepth ? getColorByDepth(depth) : '#3388ff';
+
     const marker = L.circleMarker(coords, {
       radius: 8,
-      fillColor: '#3388ff',
-      color: '#3388ff',
+      fillColor: fillColor,
+      color: fillColor,
       weight: 2,
       fillOpacity: 0.7,
     });
@@ -110,6 +133,8 @@ export default function Map() {
         selectedCompany={selectedCompany}
         handleCompanyChange={handleCompanyChange}
         companies={companies}
+        colorByDepth={colorByDepth}
+        handleColorByDepthChange={handleColorByDepthChange}
       />
       <div style={{ flex: 1, height: '100%' }}>
         <MapContainer
@@ -124,10 +149,10 @@ export default function Map() {
           {geoData && (
             <GeoJSON
               ref={geoJsonLayerRef}
-              key={selectedCompany}
+              key={colorByDepth ? 'colored' : 'default'}
               data={geoData}
               onEachFeature={renderFeatureProps}
-              pointToLayer={createBoreholeMarker}
+              pointToLayer={createBoreholePoints}
             />
           )}
         </MapContainer>
