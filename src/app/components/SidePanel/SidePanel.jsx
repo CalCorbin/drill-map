@@ -1,6 +1,7 @@
 import React from 'react';
 import CompanyFilter from '../CompanyFilter/CompanyFilter';
 import ColorByDepth from '../ColorByDepth/ColorByDepth';
+import YearSlider from '../YearSlider/YearSlider';
 
 export default function SidePanel({
   selectedCompany,
@@ -8,6 +9,10 @@ export default function SidePanel({
   companies,
   colorByDepth,
   handleColorByDepthChange,
+  selectedYear,
+  handleYearChange,
+  minYear,
+  maxYear,
 }) {
   return (
     <div
@@ -29,6 +34,12 @@ export default function SidePanel({
           selectedCompany={selectedCompany}
           handleCompanyChange={handleCompanyChange}
           companies={companies}
+        />
+        <YearSlider
+          minYear={minYear}
+          maxYear={maxYear}
+          selectedYear={selectedYear}
+          onYearChange={handleYearChange}
         />
         <ColorByDepth
           colorByDepth={colorByDepth}

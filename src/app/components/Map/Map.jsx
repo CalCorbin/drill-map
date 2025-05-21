@@ -7,6 +7,7 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import SidePanel from '../SidePanel/SidePanel';
 import { createBoreholePopup } from '../BoreholePopup/BoreholePopup';
+import { getColorByDepth } from './functions/getColorByDepth';
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -24,6 +25,10 @@ export default function Map() {
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState('All');
   const [colorByDepth, setColorByDepth] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const [minYear, setMinYear] = useState(null);
+  const [maxYear, setMaxYear] = useState(null);
+
   const geoJsonLayerRef = useRef();
 
   useEffect(() => {
@@ -33,6 +38,7 @@ export default function Map() {
         setOriginalGeoData(data);
         setGeoData(data);
 
+        // Extract companies
         const uniqueCompanies = [
           ...new Set(
             data.features
@@ -41,6 +47,21 @@ export default function Map() {
           ),
         ];
         setCompanies(uniqueCompanies);
+
+        // Calculate min and max years
+        const years = data.features
+          .map((feature) =>
+            feature.properties['Year Drilled']
+              ? feature.properties['Year Drilled']
+              : null
+          )
+          .filter((year) => year !== null);
+
+        if (years.length > 0) {
+          setMinYear(Math.min(...years));
+          setMaxYear(Math.max(...years));
+          setSelectedYear(Math.max(...years));
+        }
       })
       .catch((error) => console.error('Error loading GeoJSON data:', error));
   }, []);
@@ -48,36 +69,38 @@ export default function Map() {
   useEffect(() => {
     if (!originalGeoData) return;
 
-    let filteredData = originalGeoData;
+    let filteredData = {
+      ...originalGeoData,
+      features: originalGeoData.features.filter((feature) => {
+        // Company filter
+        const companyMatch =
+          selectedCompany === 'All' ||
+          feature.properties.Company === selectedCompany;
 
-    if (selectedCompany === 'All') {
-      setGeoData(originalGeoData);
-    } else {
-      filteredData = {
-        ...filteredData,
-        features: originalGeoData.features.filter(
-          (feature) => feature.properties.Company === selectedCompany
-        ),
-      };
-      setGeoData(filteredData);
+        // Year filter
+        const yearMatch =
+          !selectedYear ||
+          (feature.properties['Year Drilled'] &&
+            feature.properties['Year Drilled'] <= selectedYear);
+
+        return companyMatch && yearMatch;
+      }),
+    };
+
+    setGeoData(filteredData);
+
+    if (geoJsonLayerRef.current) {
+      geoJsonLayerRef.current.clearLayers();
+      geoJsonLayerRef.current.addData(filteredData);
     }
-
-    geoJsonLayerRef.current.clearLayers();
-    geoJsonLayerRef.current.addData(filteredData);
-  }, [selectedCompany, originalGeoData]);
+  }, [selectedCompany, selectedYear, originalGeoData]);
 
   const handleCompanyChange = (e) => {
     setSelectedCompany(e.target.value);
   };
 
-  const getColorByDepth = (depth) => {
-    if (!depth) return '#3388ff';
-
-    if (depth < 200) return '#2c7bb6';
-    if (depth < 400) return '#abd9e9';
-    if (depth < 600) return '#ffffbf';
-    if (depth < 800) return '#fdae61';
-    return '#d7191c';
+  const handleYearChange = (year) => {
+    setSelectedYear(year);
   };
 
   const handleColorByDepthChange = (e) => {
@@ -126,6 +149,10 @@ export default function Map() {
         companies={companies}
         colorByDepth={colorByDepth}
         handleColorByDepthChange={handleColorByDepthChange}
+        selectedYear={selectedYear}
+        handleYearChange={handleYearChange}
+        minYear={minYear}
+        maxYear={maxYear}
       />
       <div style={{ flex: 1, height: '100%' }}>
         <MapContainer
