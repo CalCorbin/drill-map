@@ -25,7 +25,7 @@ export default function YearSlider({
 
   return (
     <div className={styles.sliderContainer}>
-      <h3 className={styles.title}>Year Drilled</h3>
+      <label className={styles.label}>Year Drilled</label>
       <div className={styles.sliderWrapper}>
         <div className={styles.yearLabels}>
           <span>{minYear}</span>

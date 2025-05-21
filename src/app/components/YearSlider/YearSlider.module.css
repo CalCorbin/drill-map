@@ -1,10 +1,15 @@
 .sliderContainer {
-  margin: 15px 0;
-  padding: 10px 0;
+  margin: 1rem 0;
+  padding: 0.5rem 0;
 }
 
-.title {
-  margin-bottom: 10px;
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #495057;
+  letter-spacing: 0.3px;
 }
 
 .sliderWrapper {
@@ -15,7 +20,7 @@
 .yearLabels {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 5px;
+  margin-bottom: 0.5rem;
 }
 
 .currentYear {

@@ -2,6 +2,8 @@
 
 This repo is a web application for displaying and interacting with map data using React and Leaflet.
 
+![The drill map showing borehole points](/public/map.png)
+
 # Table of Contents
 
 - [Drill Map](#drill-map)
