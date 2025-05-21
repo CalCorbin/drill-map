@@ -7,6 +7,7 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import SidePanel from '../SidePanel/SidePanel';
 import BasemapSelector from '../BasemapSelector/BasemapSelector';
+import GeoJSONPanel from '../GeoJSONPanel/GeoJSONPanel';
 import { createBoreholePopup } from '../BoreholePopup/BoreholePopup';
 import { getColorByDepth } from './functions/getColorByDepth';
 import { basemapOptions } from '../BasemapSelector/basemapOptions';
@@ -153,7 +154,7 @@ export default function Map() {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100vh', width: '100%' }}>
+    <div style={{ display: 'flex', width: '100vw', height: '100vh' }}>
       <SidePanel
         selectedCompany={selectedCompany}
         handleCompanyChange={handleCompanyChange}
@@ -167,32 +168,50 @@ export default function Map() {
         selectedBasemap={selectedBasemap}
         handleBasemapChange={handleBasemapChange}
       />
-      <div style={{ flex: 1, height: '100%' }}>
-        <MapContainer
-          center={[32.75, -110.47]}
-          zoom={13}
-          style={{ height: '100%', width: '100%' }}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+          height: '100%',
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            flex: '1 0 60%',
+            width: '100%',
+          }}
         >
-          <TileLayer
-            attribution={currentBasemap.attribution}
-            url={currentBasemap.url}
-            maxZoom={currentBasemap.maxZoom}
-          />
-          {geoData && (
-            <GeoJSON
-              ref={geoJsonLayerRef}
-              key={colorByDepth ? 'colored' : 'default'}
-              data={geoData}
-              onEachFeature={renderFeatureProps}
-              pointToLayer={createBoreholePoints}
+          <MapContainer
+            center={[32.75, -110.47]}
+            zoom={13}
+            style={{ height: '100%', width: '100%' }}
+          >
+            <TileLayer
+              attribution={currentBasemap.attribution}
+              url={currentBasemap.url}
+              maxZoom={currentBasemap.maxZoom}
             />
-          )}
-        </MapContainer>
-        <BasemapSelector
-          options={basemapOptions}
-          selected={selectedBasemap}
-          onChange={handleBasemapChange}
-        />
+            {geoData && (
+              <GeoJSON
+                ref={geoJsonLayerRef}
+                key={colorByDepth ? 'colored' : 'default'}
+                data={geoData}
+                onEachFeature={renderFeatureProps}
+                pointToLayer={createBoreholePoints}
+              />
+            )}
+            <BasemapSelector
+              options={basemapOptions}
+              selected={selectedBasemap}
+              onChange={handleBasemapChange}
+            />
+          </MapContainer>
+        </div>
+        <div style={{ flex: '1 0 40%', overflow: 'auto', color: '#333333' }}>
+          <GeoJSONPanel geoData={geoData} />
+        </div>
       </div>
     </div>
   );
