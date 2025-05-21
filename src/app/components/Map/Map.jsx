@@ -6,6 +6,7 @@ import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import SidePanel from '../SidePanel/SidePanel';
+import { createBoreholePopup } from '../BoreholePopup/BoreholePopup';
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -89,17 +90,7 @@ export default function Map() {
   };
 
   const renderFeatureProps = (feature, layer) => {
-    if (feature.properties) {
-      const popupContent = `
-        <strong>Hole ID:</strong> ${feature.properties.Hole_ID || 'N/A'}<br/>
-        <strong>Borehole Type:</strong> ${feature.properties['Borehole type'] || 'N/A'}<br/>
-        <strong>Company:</strong> ${feature.properties.Company || 'N/A'}<br/>
-        <strong>Total Depth:</strong> ${feature.properties['Total depth'] || 'N/A'}<br/>
-        <strong>Coordinates:</strong> ${feature.geometry.coordinates.join(', ')}<br/>
-        <strong>Year Drilled:</strong> ${feature.properties['Year Drilled'] || 'N/A'}<br/>
-      `;
-      layer.bindPopup(popupContent);
-    }
+    createBoreholePopup(feature, layer);
   };
 
   const createBoreholePoints = (feature, coords) => {
