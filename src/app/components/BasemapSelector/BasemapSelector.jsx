@@ -1,21 +1,9 @@
 import React from 'react';
+import styles from './BasemapSelector.module.css';
 
 export default function BasemapSelector({ options, selected, onChange }) {
   return (
-    <div
-      className="basemap-selector"
-      style={{
-        position: 'absolute',
-        top: '10px',
-        right: '10px',
-        zIndex: 1000,
-        backgroundColor: 'white',
-        color: '#333333',
-        padding: '10px',
-        borderRadius: '4px',
-        boxShadow: '0 1px 5px rgba(0,0,0,0.65)',
-      }}
-    >
+    <div className={styles.basemapSelector}>
       <label htmlFor="basemap-select">Basemap: </label>
       <select
         id="basemap-select"
