@@ -1,11 +1,11 @@
 .basemapSelector {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 1.25rem;
+  right: 1.25rem;
   z-index: 1000;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  min-width: 180px;
-  border-radius: 8px;
+  min-width: 11.25rem;
+  border-radius: 0.5rem;
   overflow: hidden;
 }
 
@@ -13,27 +13,26 @@
   display: flex;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(8px);
-  padding: 12px 16px;
+  backdrop-filter: blur(0.5rem);
+  padding: 0.75rem 1rem;
   cursor: pointer;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
   user-select: none;
 }
 
 .selector:hover {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.375rem 1.25rem rgba(0, 0, 0, 0.15);
   background-color: rgba(255, 255, 255, 0.95);
 }
 
 .label {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   color: #6c757d;
-  margin-right: 10px;
-  letter-spacing: 0.5px;
+  margin-right: 0.75rem;
 }
 
 .selected {
@@ -43,22 +42,22 @@
 }
 
 .arrow {
-  margin-left: 10px;
-  font-size: 10px;
+  margin-left: 0.625rem;
+  font-size: 0.625rem;
   color: #495057;
 }
 
 .dropdown {
-  margin-top: 8px;
+  margin-top: 0.5rem;
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
   overflow: hidden;
   animation: fadeIn 0.2s ease;
 }
 
 .option {
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
@@ -80,14 +79,14 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 3px;
+  width: 0.1875rem;
   background-color: #4263eb;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-0.3125rem);
   }
   to {
     opacity: 1;

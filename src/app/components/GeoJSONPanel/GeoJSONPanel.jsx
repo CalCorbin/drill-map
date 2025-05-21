@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import styles from './GeoJSONPanel.module.css';
 
 export default function GeoJSONPanel({ geoData }) {
   const tableRef = useRef(null);
@@ -272,17 +273,8 @@ export default function GeoJSONPanel({ geoData }) {
   }, [geoData]);
 
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        padding: '15px',
-        background: 'white',
-        overflow: 'auto',
-      }}
-    >
+    <div className={styles.container}>
       <h2>Borehole Depth Data</h2>
-      <p>Complete dataset of boreholes with depth information</p>
       <div ref={tableRef} />
     </div>
   );

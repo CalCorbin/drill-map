@@ -43,12 +43,16 @@ export default function Map() {
         setOriginalGeoData(data);
         setGeoData(data);
 
-        // Extract companies
+        // Get companies for filter dropdown
         const uniqueCompanies = [
           ...new Set(
             data.features
+              .filter(
+                (feature) =>
+                  feature.properties.Company &&
+                  feature.properties['Year Drilled'] !== null
+              )
               .map((feature) => feature.properties.Company)
-              .filter((company) => company)
           ),
         ];
         setCompanies(uniqueCompanies);
