@@ -74,6 +74,7 @@ creating a pull request so you can catch any errors early. Otherwise, you won't 
 - [React](https://react.dev/)
 - [Leaflet](https://leafletjs.com/)
 - [React Leaflet](https://react-leaflet.js.org/)
+- [D3](https://d3js.org/)
 - [Cypress](https://www.cypress.io/)
 - [ESLint](https://eslint.org/)
 - [Prettier](https://prettier.io/)
